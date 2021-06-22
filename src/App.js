@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -6,22 +5,40 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { FileUpload } from './components/SignatureUpload';
+import { FileUploadForm } from './components/FileUploadForm';
+import { TextSignatureForm } from './components/TextSignatureForm';
+
+const linkStyle = {
+  backgroundColor: "#000",
+  color: "#fff"
+}
 
 function App() {
   return (
     <div className="App">
       <h1>Please select the Signature</h1>
       <Router>
-        <Link to="/type" style={{marginRight: 20}}>Type</Link>
-        <Link to="/upload">Upload</Link>
+        <Link
+          to="/type" 
+          style={{...linkStyle, marginRight: 20}} 
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained"
+          >
+          Type
+        </Link>
+
+        <Link 
+          to="/upload" 
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained" 
+          style={linkStyle}>
+          Upload
+        </Link>
 
         <Switch>
           <Route path="/type" >
-            type    
+            <TextSignatureForm />    
           </Route>
           <Route path="/upload" >
-            <FileUpload />
+            <FileUploadForm />
           </Route>
         </Switch>
         </Router>

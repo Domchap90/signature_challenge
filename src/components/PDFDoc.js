@@ -1,7 +1,7 @@
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
 const wrapperStyle = {
-    padding: '50px 25%'
+    padding: '0px 25%'
 }
 
 const styles = StyleSheet.create({
@@ -18,11 +18,12 @@ const styles = StyleSheet.create({
         alignContent: 'center'
       
     },
-    image: {
+    imageInPDF: {
         width: '50%',
         height: 'calc(50% / 3)',
         objectFit: 'scale-down'
     }
+    
   });
 
 export const PDFDoc = (props) => {
@@ -37,8 +38,8 @@ export const PDFDoc = (props) => {
                     <Text style={styles.center} >PDF with signature</Text>
                     <View>
                         Signature: {isUpload?
-                            <img src={signature} style={styles.image} alt="Uploaded signature" />:
-                            signature
+                            <img src={signature} style={styles.imageInPDF} alt="Uploaded signature" />:
+                            <p style={{fontFamily: "'Calligraffitti', cursive"}}>{signature}</p>
                             }
                     </View>
                 </Page>

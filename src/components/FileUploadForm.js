@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { PDFDoc } from './PDFDoc';
 import { Button, Container } from '@material-ui/core';
 
-const formStyle = {
+export const formStyle = {
 
     form : {
         display: 'grid',
@@ -47,11 +47,11 @@ export const FileUploadForm = () => {
 
 	return(
 
-        <div style={formStyle.form}>
+        <form onSubmit={handleSubmit} style={formStyle.form}>
 
-            <Container maxWidthSm>
+            <Container>
 
-                <Button variant="contained" component="label">
+                <Button variant="contained" component="label" >
                     Upload Signature
                     <input type="file" onChange={handleChange} hidden />
                 </Button>
@@ -64,13 +64,13 @@ export const FileUploadForm = () => {
             
 
             <Container>
-                <Button variant="contained" onClick={handleSubmit} >Create PDF</Button>
+                <Button type="submit" variant="contained" >Create PDF</Button>
             </Container>
             
             {isSelected? 
                 <PDFDoc signature={file} isUpload={true} /> : <p>Please Chose a file to upload</p>
             }
-        </div>
+        </form>
 
     );
 
