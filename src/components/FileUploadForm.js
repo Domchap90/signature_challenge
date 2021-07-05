@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { PDFDoc } from './PDFDoc';
 import { Button, Container } from '@material-ui/core';
+import { PDFViewer } from '@react-pdf/renderer';
 
 export const formStyle = {
 
@@ -25,8 +26,9 @@ const imageDisplayStyle = {
 
 export const FileUploadForm = () => {
     const [file, setFile] = useState();
-    const [isSelected, setIsSelected] = useState(false);
-    const [currentSelection, setCurrentSelection] = useState(<p>Nothing selected</p>);
+    const [createPDF, setCreatePDF] = useState(false);
+    const [currentSelection, setCurrentSelection] = useState('');
+    const [uploadErr, setUploadErr]  = useState('');
 
     const handleChange = (e) => {
         setFile(URL.createObjectURL(e.target.files[0]))
@@ -35,14 +37,23 @@ export const FileUploadForm = () => {
     const handleSubmit = (e) => {
 
         e.preventDefault();
-        setIsSelected(true);
-        console.log('file object: ', file)
+        if (currentSelection) {
+            setUploadErr('');
+            setCreatePDF(true);
+        } else {
+            console.log('currentSelection = ', currentSelection)
+            setUploadErr('Please chose a file to upload');
+        }
+        
     }
 
     useEffect(() => {
         if (file != null)
             setCurrentSelection(<img src={file} style={imageDisplayStyle} alt="Currently selected signature" />);
-            
+        
+        // createPDF back to false to ensure pdfs aren't created every time file changes 
+        setCreatePDF(false);  
+
     }, [file])
 
 	return(
@@ -59,7 +70,7 @@ export const FileUploadForm = () => {
             </Container>
 
             <Container>
-                {currentSelection}
+                {currentSelection? currentSelection: <p>Nothing selected</p>}
             </Container>
             
 
@@ -67,9 +78,12 @@ export const FileUploadForm = () => {
                 <Button type="submit" variant="contained" >Create PDF</Button>
             </Container>
             
-            {isSelected? 
-                <PDFDoc signature={file} isUpload={true} /> : <p>Please Chose a file to upload</p>
-            }
+            {createPDF && 
+                <PDFDoc signature={file} isUpload={true} /> } 
+
+            {uploadErr &&
+                <p id="upload_error" style={{color: 'red'}}>{uploadErr}</p>}
+
         </form>
 
     );
