@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { PDFDoc } from './PDFDoc';
 import { formStyle } from './FileUploadForm.js'
 import { Button, Container, Input } from '@material-ui/core';
+import { PDFViewer } from '@react-pdf/renderer';
 
 
 export const TextSignatureForm = () => {
@@ -20,6 +21,7 @@ export const TextSignatureForm = () => {
 
         e.preventDefault();
         if (text.length) {
+            setPrompt("");
             setCreatePDF(true);
             setSignature(text);
         } else
@@ -40,9 +42,11 @@ export const TextSignatureForm = () => {
                 <Button type="submit" variant="contained" >Create PDF</Button>
             </Container>
             
-            {createPDF? 
-                <PDFDoc signature={signature} isUpload={false} /> : <p>{prompt}</p>
+            {createPDF && 
+                <PDFDoc signature={signature} isUpload={false} /> 
             }
+
+            {prompt && <p>{prompt}</p>}
         </form>
 
     );
